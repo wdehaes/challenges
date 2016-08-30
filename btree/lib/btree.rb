@@ -1,14 +1,14 @@
 class BinaryTree
   attr_accessor :payload, :left, :right
 
-  def initialize(payload, left, right)
+  def initialize(payload = nil, left = nil, right = nil)
     @payload = payload
     @left = left
     @right = right
   end
 
   def add(tree)
-    if tree.payload <= @payload
+    if tree.payload < @payload
       if @left.nil?
         @left = tree
       else
@@ -29,24 +29,28 @@ class BinaryTree
     @right.output_in_order(ary) unless @right.nil?
   end
 
-end
-
-class TreeSort
   def sort(ary)
     if ary.length == 0
       return ary
     end
     #build binary tree
-    root = BinaryTree.new(ary.shift, nil, nil)
+    @payload = ary.shift
     while ary.length > 0 do
-      root.add(BinaryTree.new(ary.shift, nil, nil))
+      raise ArgumentError, 'Argument is not numeric' unless ary.first.is_a? Numeric
+      self.add(BinaryTree.new(ary.shift, nil, nil))
     end
 
     #return values in order
     ary = []
-    root.output_in_order(ary)
+    self.output_in_order(ary)
+    @payload = nil
+    @left = nil
+    @right = nil
     return ary
   end
+
 end
 
-BTreeSort = TreeSort.new()
+
+BTreeSort = BinaryTree.new()
+# puts BTreeSort.sort([0,3,4,1,7,12,89,23,14,25,1,2,3,99])

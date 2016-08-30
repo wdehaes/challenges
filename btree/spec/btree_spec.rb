@@ -16,6 +16,12 @@ RSpec.describe BTreeSort, type: :model do
 
     it 'should not crash on empty arrays' do
       expect(BTreeSort.sort([])).to eq [] 
-    end     
+    end
+
+    it 'should give an error on an array with non-numeric elements' do
+      array = ['a', false, 12]
+      expect {BTreeSort.sort(array)}.to raise_error(ArgumentError)     
+    end
+
   end
 end
